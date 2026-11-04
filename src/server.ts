@@ -8,6 +8,7 @@ import projectRoutes from "./routes/project.routes.js";
 import taskRoutes from "./routes/task.route.js";
 import commentRoutes from "./routes/comment.route.js";
 import activityLogsRoutes from "./routes/activitylog.router.js";
+import notificationRoutes from "./routes/notification.routes.js";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/projects",projectRoutes)
 app.use("/tasks",taskRoutes)
 app.use("/workspaces",commentRoutes)
 app.use("/workspaces",activityLogsRoutes)
+app.use("/workspaces",notificationRoutes)
 
 const PORT = process.env.PORT || 3000;
 

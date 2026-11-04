@@ -19,6 +19,7 @@ model Workspace {
   updatedAt   DateTime     @updatedAt
   memberships Membership[]
   projects    Project[]
+  notifications Notification[]
 }
 
 model User {
@@ -32,6 +33,7 @@ model User {
   assignedTasks Task[]
   comments      Comment[]
   activityLogs  ActivityLog[]
+  notifications Notification[]
 }
 
 model Membership {
@@ -79,7 +81,7 @@ model Task {
   id          Int          @id @default(autoincrement())
   description String?
   title       String
-  status      TaskStatus   @default(IN_PROGRESS)
+  status      TaskStatus   @default(TODO)
   priority    TaskPriority @default(MEDIUM)
   dueDate     DateTime?
   projectId   Int
@@ -135,5 +137,23 @@ model ActivityLog {
   @@index([workspaceId, createdAt])
   @@index([projectId])
   @@index([userId])
+  @@index([taskId])
+}
+
+model Notification {
+  id Int @id @default(autoincrement())
+  title String
+  message String
+  type String
+  isRead Boolean @default(false)
+  userId Int
+  workspaceId Int
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+
+  @@index([userId,isRead])
   @@index([workspaceId])
+  @@index([createdAt])
 }

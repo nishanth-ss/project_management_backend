@@ -54,19 +54,9 @@ export const addMemberController = async (
         });
 
     } catch (error) {
-        console.error("Add member error:", error);
-
-        if (
-            error instanceof Error &&
-            error.message === "A user with this email already exists"
-        ) {
-            return res.status(409).json({
-                message: error.message
-            });
-        }
-
+        console.error("Failed to update membership:", error);
         return res.status(500).json({
-            message: "Internal server error"
+            error: error instanceof Error ? error.message : String(error),
         });
     }
 };
